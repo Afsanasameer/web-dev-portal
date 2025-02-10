@@ -101,15 +101,15 @@
             background-color: darkred;
         }
 
-        /* Login Page */
-        .login-container {
+        /* Login & Signup Pages */
+        .auth-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             width: 100%;
         }
-        .login-box {
+        .auth-box {
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -117,14 +117,14 @@
             width: 300px;
             text-align: center;
         }
-        .login-box input {
+        .auth-box input {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .login-box button {
+        .auth-box button {
             width: 100%;
             padding: 10px;
             background-color: #0056b3;
@@ -133,8 +133,13 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .login-box button:hover {
+        .auth-box button:hover {
             background-color: #003f7f;
+        }
+        .switch-auth {
+            margin-top: 10px;
+            color: #0056b3;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -197,12 +202,24 @@
     </div>
 
     <!-- Login Page -->
-    <div class="login-container" id="loginPage">
-        <div class="login-box">
+    <div class="auth-container" id="loginPage">
+        <div class="auth-box">
             <h2>Login</h2>
-            <input type="email" id="email" placeholder="Enter Email" required>
-            <input type="password" id="password" placeholder="Enter Password" required>
+            <input type="email" id="loginEmail" placeholder="Enter Email" required>
+            <input type="password" id="loginPassword" placeholder="Enter Password" required>
             <button onclick="login()">Login</button>
+            <p class="switch-auth" onclick="showSignup()">Don't have an account? Sign up</p>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div class="auth-container" id="signupPage" style="display: none;">
+        <div class="auth-box">
+            <h2>Signup</h2>
+            <input type="email" id="signupEmail" placeholder="Enter Email" required>
+            <input type="password" id="signupPassword" placeholder="Create Password" required>
+            <button onclick="signup()">Sign Up</button>
+            <p class="switch-auth" onclick="showLogin()">Already have an account? Login</p>
         </div>
     </div>
 
@@ -212,9 +229,15 @@
             checkLogin();
         }
 
+        function signup() {
+            alert("Account created successfully! Please log in.");
+            showLogin();
+        }
+
         function checkLogin() {
             if (localStorage.getItem("isLoggedIn") === "true") {
                 document.getElementById("loginPage").style.display = "none";
+                document.getElementById("signupPage").style.display = "none";
                 document.getElementById("homePage").style.display = "block";
                 document.getElementById("sidePanel").style.display = "flex";
             }
@@ -223,6 +246,16 @@
         function logout() {
             localStorage.removeItem("isLoggedIn");
             location.reload();
+        }
+
+        function showSignup() {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("signupPage").style.display = "flex";
+        }
+
+        function showLogin() {
+            document.getElementById("signupPage").style.display = "none";
+            document.getElementById("loginPage").style.display = "flex";
         }
 
         checkLogin();
